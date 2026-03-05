@@ -29,8 +29,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[homepage](https://eungi-hong-digital-portfolio.vercel.app)]
 
 
-* Role: Team Lead
-* Responsibilities: UI
+* Role: Developer
+* Responsibilities: Testing
 
 ### Jotham Lim
 
