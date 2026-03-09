@@ -274,11 +274,14 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* runs a pet grooming business
+* manages many repeat customers
+* requires fast access to pet and client information during work
+* needs reliable record keeping
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+* is reasonably comfortable typing simple commands
 
 **Value proposition**: manage contacts faster than a typical mouse/GUI driven app
 
