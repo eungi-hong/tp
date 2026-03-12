@@ -76,11 +76,10 @@ public class Person {
     }
 
     /**
-     * Returns an immutable pet set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
+     * Returns a mutable pet set.
      */
     public Set<Pet> getPets() {
-        return Collections.unmodifiableSet(pets);
+        return pets;
     }
 
     /**
