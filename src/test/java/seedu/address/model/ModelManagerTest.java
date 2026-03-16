@@ -100,7 +100,10 @@ public class ModelManagerTest {
 
     @Test
     public void removePet_nullPhone_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.removePet(new seedu.address.model.person.Pet(new seedu.address.model.person.Name("Test")), null));
+        assertThrows(NullPointerException.class, () ->
+                modelManager.removePet(
+                        new seedu.address.model.person.Pet(new seedu.address.model.person.Name("Test")),
+                        null));
     }
 
     @Test

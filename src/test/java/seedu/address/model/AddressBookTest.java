@@ -96,13 +96,18 @@ public class AddressBookTest {
 
     @Test
     public void removePet_nullPhone_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> addressBook.removePet(new seedu.address.model.person.Pet(new seedu.address.model.person.Name("Test")), null));
+        assertThrows(NullPointerException.class, () ->
+                addressBook.removePet(
+                        new seedu.address.model.person.Pet(new seedu.address.model.person.Name("Test")),
+                        null));
     }
 
     @Test
     public void removePet_personNotFound_throwsPersonNotFoundException() {
         assertThrows(seedu.address.model.person.exceptions.PersonNotFoundException.class, () ->
-            addressBook.removePet(new seedu.address.model.person.Pet(new seedu.address.model.person.Name("Test")), ALICE.getPhone()));
+            addressBook.removePet(
+                    new seedu.address.model.person.Pet(new seedu.address.model.person.Name("Test")),
+                    ALICE.getPhone()));
     }
 
     /**
