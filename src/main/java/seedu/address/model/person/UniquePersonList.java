@@ -78,6 +78,20 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * Removes a pet from the person with the given phone number.
+     * The person must exist in the list.
+     * @param pet The pet to remove.
+     * @param ownerPhone The phone number of the owner of the pet.
+     *
+     * @throws PersonNotFoundException if no person with the given phone number is found.
+     */
+    public void removePet(Pet pet, Phone ownerPhone) {
+        requireAllNonNull(pet, ownerPhone);
+        Person owner = searchByPhone(ownerPhone);
+        owner.removePet(pet);
+    }
+
+    /**
      * Replaces the person {@code target} in the list with {@code editedPerson}.
      * {@code target} must exist in the list.
      * The person identity of {@code editedPerson} must not be the same as another existing person in the list.

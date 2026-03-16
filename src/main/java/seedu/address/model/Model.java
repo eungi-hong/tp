@@ -73,6 +73,8 @@ public interface Model {
 
     void addPet(Pet pet, Phone phone);
 
+    void removePet(Pet pet, Phone phone);
+
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
      * {@code target} must exist in the address book.

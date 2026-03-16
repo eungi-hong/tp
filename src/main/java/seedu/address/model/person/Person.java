@@ -90,6 +90,13 @@ public class Person {
     }
 
     /**
+     * Removes a pet from the person's pet set.
+     */
+    public void removePet(Pet pet) {
+        pets.remove(pet);
+    }
+
+    /**
      * Returns true if both persons have the same phone.
      * This defines a weaker notion of equality between two persons.
      */
