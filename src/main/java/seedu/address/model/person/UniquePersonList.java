@@ -74,7 +74,8 @@ public class UniquePersonList implements Iterable<Person> {
     public void addPet(Pet pet, Phone ownerPhone) {
         requireAllNonNull(pet, ownerPhone);
         Person owner = searchByPhone(ownerPhone);
-        owner.addPet(pet);
+        Person editedOwner = owner.addPet(pet);
+        setPerson(owner, editedOwner);
     }
 
     /**

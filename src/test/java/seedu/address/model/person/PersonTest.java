@@ -12,6 +12,10 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalPets.SNOOPY;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -59,6 +63,16 @@ public class PersonTest {
         String phoneWithTrailingSpaces = VALID_PHONE_BOB + " ";
         Person editedBob = new PersonBuilder(BOB).withPhone(phoneWithTrailingSpaces).build();
         assertFalse(BOB.isSamePerson(editedBob));
+    }
+
+    @Test
+    public void addPet() {
+        Pet barkus = new Pet(new Name("Barkus"));
+        Person aliceCopy = ALICE.addPet(SNOOPY).addPet(barkus);
+        Set<Pet> expectedPets = new HashSet<Pet>();
+        expectedPets.add(SNOOPY);
+        expectedPets.add(barkus);
+        assertEquals(expectedPets, aliceCopy.getPets());
     }
 
     @Test

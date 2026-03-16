@@ -180,6 +180,18 @@ public class UniquePersonListTest {
     }
 
     @Test
+    public void addPet_ownerExists_success() {
+        uniquePersonList.add(ALICE);
+        uniquePersonList.addPet(SNOOPY, ALICE.getPhone());
+
+        UniquePersonList expectedList = new UniquePersonList();
+        Person expectedPerson = ALICE.addPet(SNOOPY);
+        expectedList.add(expectedPerson);
+
+        assertEquals(expectedList, uniquePersonList);
+    }
+
+    @Test
     public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, ()
             -> uniquePersonList.asUnmodifiableObservableList().remove(0));

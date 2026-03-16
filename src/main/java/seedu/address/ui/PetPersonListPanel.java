@@ -78,5 +78,4 @@ public class PetPersonListPanel extends UiPart<Region> {
             }
         }
     }
-
 }
