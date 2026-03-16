@@ -118,7 +118,9 @@ public class AddressBookTest {
         ab.addPerson(person);
         Pet pet = new seedu.address.model.person.Pet(new seedu.address.model.person.Name("Catty"));
         ab.addPet(pet, person.getPhone());
-        Person found = ab.getPersonList().stream().filter(p -> p.getPhone().equals(person.getPhone())).findFirst().get();
+        Person found = ab.getPersonList().stream().filter(
+                p -> p.getPhone().equals(
+                        person.getPhone())).findFirst().get();
         assertTrue(found.getPets().contains(pet));
     }
 
@@ -129,7 +131,8 @@ public class AddressBookTest {
         ab.addPerson(person);
         Pet pet = new seedu.address.model.person.Pet(new seedu.address.model.person.Name("Catty"));
         ab.removePet(pet, person.getPhone());
-        Person found = ab.getPersonList().stream().filter(p -> p.getPhone().equals(person.getPhone())).findFirst().get();
+        Person found = ab.getPersonList().stream().filter(
+                p -> p.getPhone().equals(person.getPhone())).findFirst().get();
         assertFalse(found.getPets().contains(pet));
     }
 
