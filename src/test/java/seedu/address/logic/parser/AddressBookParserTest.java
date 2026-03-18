@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.AddPersonCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeletePersonCommand;
+import seedu.address.logic.commands.DeletePetCommand;
 import seedu.address.logic.commands.EditClientCommand;
 import seedu.address.logic.commands.EditClientCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
@@ -51,6 +52,13 @@ public class AddressBookParserTest {
         DeletePersonCommand command = (DeletePersonCommand) parser.parseCommand(
                 DeletePersonCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new DeletePersonCommand(INDEX_FIRST_PERSON), command);
+    }
+
+    @Test
+    public void parseCommand_deletePet() throws Exception {
+        DeletePetCommand command = (DeletePetCommand) parser.parseCommand(
+                DeletePetCommand.COMMAND_WORD + " n/Snoopy p/99999999");
+        assertTrue(command instanceof seedu.address.logic.commands.DeletePetCommand);
     }
 
     @Test
@@ -99,12 +107,4 @@ public class AddressBookParserTest {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
     }
 
-    @Test
-    public void parseCommand_deletePet() throws Exception {
-        seedu.address.model.person.Pet pet = new seedu.address.model.person.Pet(
-                new seedu.address.model.person.Name("Snoopy"));
-        String phone = "99999999";
-        String commandString = "deletePet n/Snoopy p/99999999";
-        assertTrue(parser.parseCommand(commandString) instanceof seedu.address.logic.commands.DeletePetCommand);
-    }
 }
