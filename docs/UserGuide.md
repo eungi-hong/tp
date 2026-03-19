@@ -94,7 +94,7 @@ Shows all clients and pets.
 
 Format: `list`
 
-### Editing a client : `edit`
+### Editing a client : `editClient`
 
 Edits an existing client.
 
@@ -110,7 +110,7 @@ Examples:
 *  `editClient 1 p/91234567 e/johndoe@example.com` Edits the details of the client in `POSITION` 1.
 *  `editClient 2 n/Betsy Crower t/` Changes the name of the client in `POSITION` 2 to `Betsy Crower` and clears their tags.
 
-### Locating clients by name: `find`
+### Locating clients by name: `findClient`
 
 Finds clients whose names contain **any** of the given keywords.
 
@@ -119,12 +119,12 @@ Finds clients whose names contain **any** of the given keywords.
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `findClient KEYWORD [MORE_KEYWORDS]`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `findClient John` returns `john` and `John Doe`
+* `findClient alex david` returns `Alex Yeoh`, `David Li`<br>
+  ![result for 'findClient alex david'](images/findAlexDavidResult.png)
 
 ### Deleting a client : `deleteClient`
 
@@ -137,7 +137,7 @@ Format: `deleteClient POSITION`
 
 Examples:
 * `list` followed by `delete 2` deletes the client with `POSITION` 2 in the displayed list.
-* `find Betsy` followed by `delete 1` deletes the 1st client in the results of the `find` command.
+* `findClient Betsy` followed by `delete 1` deletes the 1st client in the results of the `findClient` command.
 
 ### Deleting a pet : `deletePet`
 
@@ -207,7 +207,7 @@ Action     | Format, Examples
 **DeletePet** | `deletePet n/NAME p/PHONE_NUMBER`<br> e.g., `deletePet n/Meowy p/22224444`
 **EditClient**   | `editClient POSITION [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`editClient 2 n/James Lee e/jameslee@example.com`
 **Exit**   | `exit`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**FindClient**   | `findClient KEYWORD [MORE_KEYWORDS]`<br> e.g., `findClient James Jake`
 **Help**   | `help`
 **List**   | `list`
 
