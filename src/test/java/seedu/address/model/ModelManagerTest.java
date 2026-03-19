@@ -15,8 +15,12 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.Pet;
 import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.PersonBuilder;
 
 public class ModelManagerTest {
 
@@ -86,6 +90,21 @@ public class ModelManagerTest {
     public void hasPerson_personInAddressBook_returnsTrue() {
         modelManager.addPerson(ALICE);
         assertTrue(modelManager.hasPerson(ALICE));
+    }
+
+    @Test
+    public void hasPet_petInList_returnsTrue() {
+        Person validPerson = new PersonBuilder(ALICE).withPets("Barkus").build();
+        Pet validPet = new Pet(new Name("Barkus"), "", "");
+        modelManager.addPerson(validPerson);
+        assertTrue(modelManager.hasPet(validPerson.getPhone(), validPet));
+    }
+
+    @Test
+    public void hasPet_petNotInList_returnsFalse() {
+        Pet validPet = new Pet(new Name("Barkus"), "", "");
+        modelManager.addPerson(ALICE);
+        assertFalse(modelManager.hasPet(ALICE.getPhone(), validPet));
     }
 
     @Test

@@ -13,10 +13,10 @@ public class PetAndPersonTest {
     @Test
     public void equals() {
         Pet pet = new Pet(new Name("Barkus"), "Dog", "Labrador");
-        PetAndPerson pair = new PetAndPerson(pet, ALICE);
+        PetAndPerson pair = new PetAndPerson(pet, ALICE, 1, 1);
 
         // same pet name -> returns true
-        PetAndPerson similarPair = new PetAndPerson(new Pet(new Name("Barkus"), "", ""), ALICE);
+        PetAndPerson similarPair = new PetAndPerson(new Pet(new Name("Barkus"), "Dog", "Labrador"), ALICE, 1, 1);
         assertTrue(pair.equals(similarPair));
 
         // same object -> returns true
@@ -25,27 +25,35 @@ public class PetAndPersonTest {
         // null -> returns false
         assertFalse(pair.equals(null));
 
+        // null arguments -> returns false
+        assertFalse(pair.equals(new PetAndPerson(null, ALICE, 1, 1)));
+        assertFalse(pair.equals(new PetAndPerson(pet, null, 1, 1)));
+
         // different type -> returns false
         assertFalse(pair.equals(ALICE));
 
         // different name -> returns false
         Pet differentPet = new Pet(new Name("Meowy"), "Cat", "Siamese");
-        assertFalse(pair.equals(new PetAndPerson(differentPet, ALICE)));
-        assertFalse(pair.equals(new PetAndPerson(pet, BOB)));
+        assertFalse(pair.equals(new PetAndPerson(differentPet, ALICE, 1, 1)));
+        assertFalse(pair.equals(new PetAndPerson(pet, BOB, 1, 1)));
+
+        // different pet index or person index -> returns false
+        assertFalse(pair.equals(new PetAndPerson(pet, ALICE, 2, 1)));
+        assertFalse(pair.equals(new PetAndPerson(pet, ALICE, 1, 2)));
     }
 
     @Test
     public void hashCodeMethod() {
         Pet pet = new Pet(new Name("Barkus"), "Dog", "Labrador");
-        PetAndPerson pair = new PetAndPerson(pet, ALICE);
-        int expected = 499441098;
+        PetAndPerson pair = new PetAndPerson(pet, ALICE, 1, 1);
+        int expected = -1072518421;
         assertEquals(expected, pair.hashCode());
     }
 
     @Test
     public void toStringMethod() {
         Pet pet = new Pet(new Name("Barkus"), "Dog", "Labrador");
-        PetAndPerson pair = new PetAndPerson(pet, ALICE);
+        PetAndPerson pair = new PetAndPerson(pet, ALICE, 1, 1);
         String expected = "[" + "[Barkus], "
                 + "seedu.address.model.person.Person{"
                 + "name=Alice Pauline, phone=94351253, email=alice@example.com, "

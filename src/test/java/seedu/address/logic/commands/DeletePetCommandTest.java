@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
@@ -155,6 +156,11 @@ public class DeletePetCommandTest {
         }
 
         @Override
+        public boolean hasPet(Phone phone, Pet pet) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void deletePerson(Person target) {
             throw new AssertionError("This method should not be called.");
         }
@@ -214,8 +220,15 @@ public class DeletePetCommandTest {
         }
 
         @Override
+        public boolean hasPet(Phone phone, Pet pet) {
+            requireAllNonNull(phone, pet);
+            return this.getPerson().getPets().contains(pet);
+        }
+
+        @Override
         public void removePet(Pet pet, Phone phone) {
-            requireNonNull(pet);
+            requireAllNonNull(pet, phone);
+            this.getPerson().getPets().remove(pet);
             petsDeleted.add(pet);
         }
 

@@ -50,6 +50,33 @@ public class UniquePersonListTest {
     }
 
     @Test
+    public void containsPhone_phoneInList_returnsTrue() {
+        uniquePersonList.add(ALICE);
+        assertTrue(uniquePersonList.containsPhone(ALICE.getPhone()));
+    }
+
+    @Test
+    public void containsPhone_phoneNotInList_returnsFalse() {
+        uniquePersonList.add(ALICE);
+        assertFalse(uniquePersonList.containsPhone(BOB.getPhone()));
+    }
+
+    @Test
+    public void containsPet_petInList_returnsTrue() {
+        Person validPerson = new PersonBuilder(ALICE).withPets("Barkus").build();
+        Pet validPet = new Pet(new Name("Barkus"), "", "");
+        uniquePersonList.add(validPerson);
+        assertTrue(uniquePersonList.containsPet(validPerson.getPhone(), validPet));
+    }
+
+    @Test
+    public void containsPet_petNotInList_returnsFalse() {
+        Pet validPet = new Pet(new Name("Barkus"), "", "");
+        uniquePersonList.add(ALICE);
+        assertFalse(uniquePersonList.containsPet(ALICE.getPhone(), validPet));
+    }
+
+    @Test
     public void add_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> uniquePersonList.add(null));
     }

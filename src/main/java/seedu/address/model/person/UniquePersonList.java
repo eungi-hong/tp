@@ -45,6 +45,15 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * Returns true if the list contains a person with the given phone and has the given pet.
+     */
+    public boolean containsPet(Phone phone, Pet pet) {
+        requireAllNonNull(phone, pet);
+        return internalList.stream().filter(person -> phone.equals(person.getPhone()))
+                .anyMatch(person -> person.getPets().contains(pet));
+    }
+
+    /**
      * Adds a person to the list.
      * The person must not already exist in the list.
      */
@@ -97,7 +106,8 @@ public class UniquePersonList implements Iterable<Person> {
     public void removePet(Pet pet, Phone ownerPhone) {
         requireAllNonNull(pet, ownerPhone);
         Person owner = searchByPhone(ownerPhone);
-        owner.removePet(pet);
+        Person editedOwner = owner.removePet(pet);
+        setPerson(owner, editedOwner);
     }
 
     /**

@@ -29,6 +29,10 @@ public class PetCard extends UiPart<Region> {
     private Label petName;
     @FXML
     private Label petId;
+    @FXML
+    private Label petSpecies;
+    @FXML
+    private Label petBreed;
 
     /**
      * Creates a {@code PetCard} with the given {@code Pet} and index to display.
@@ -36,7 +40,11 @@ public class PetCard extends UiPart<Region> {
     public PetCard(Pet pet, int displayedIndex) {
         super(FXML);
         this.pet = pet;
-        petId.setText(displayedIndex + ". ");
+        if (displayedIndex != 0) {
+            petId.setText(displayedIndex + ". ");
+        }
         petName.setText(pet.getName().fullName);
+        petSpecies.setText(pet.getSpecies());
+        petBreed.setText(pet.getBreed());
     }
 }

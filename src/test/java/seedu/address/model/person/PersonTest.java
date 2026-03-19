@@ -164,7 +164,7 @@ public class PersonTest {
     public void removePet_existingPet_removesPet() {
         Person personWithPet = new PersonBuilder(ALICE).withPets(VALID_PET_DOG).build();
         Pet petToRemove = new Pet(new Name(VALID_PET_DOG), "", "");
-        personWithPet.removePet(petToRemove);
+        personWithPet = personWithPet.removePet(petToRemove);
         Person expectedPerson = new PersonBuilder(ALICE).build(); // without pets
         assertTrue(personWithPet.equals(expectedPerson));
     }

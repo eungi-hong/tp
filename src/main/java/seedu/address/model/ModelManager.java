@@ -102,6 +102,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasPet(Phone phone, Pet pet) {
+        requireAllNonNull(phone, pet);
+        return addressBook.hasPet(phone, pet);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
     }

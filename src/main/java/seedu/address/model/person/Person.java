@@ -54,7 +54,7 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Person person, Pet pet) {
+    public Person(Person person, boolean isAdd, Pet pet) {
         requireAllNonNull(person, pet);
         this.name = person.getName();
         this.phone = person.getPhone();
@@ -62,7 +62,12 @@ public class Person {
         this.address = person.getAddress();
         this.tags.addAll(person.getTags());
         this.pets.addAll(person.getPets());
-        this.pets.add(pet);
+
+        if (isAdd) {
+            this.pets.add(pet);
+        } else {
+            this.pets.remove(pet);
+        }
     }
 
     public Name getName() {
@@ -100,14 +105,14 @@ public class Person {
      * Adds a pet to the person's pet set and returns the updated person.
      */
     public Person addPet(Pet pet) {
-        return new Person(this, pet);
+        return new Person(this, true, pet);
     }
 
     /**
-     * Removes a pet from the person's pet set.
+     * Removes a pet from the person's pet set and returns the updated person.
      */
-    public void removePet(Pet pet) {
-        pets.remove(pet);
+    public Person removePet(Pet pet) {
+        return new Person(this, false, pet);
     }
 
     /**

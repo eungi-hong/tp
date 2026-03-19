@@ -6,6 +6,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Pet;
+import seedu.address.model.person.PetAndPerson;
 
 /**
  * An UI component that displays information of a {@code Pet} on the left,
@@ -32,14 +33,14 @@ public class PetPersonCard extends UiPart<Region> {
     /**
      * Creates a {@code PetPersonCard} with the given {@code Pet}, {@code Person} and index to display.
      */
-    public PetPersonCard(Pet pet, Person person, int displayedIndex) {
+    public PetPersonCard(PetAndPerson petAndPerson) {
         super(FXML);
 
-        this.pet = pet;
-        this.person = person;
+        this.pet = petAndPerson.getPet();
+        this.person = petAndPerson.getPerson();
 
-        PetCard petCard = new PetCard(pet, displayedIndex);
-        PersonCard personCard = new PersonCard(person, displayedIndex);
+        PetCard petCard = new PetCard(pet, petAndPerson.getPetIndex());
+        PersonCard personCard = new PersonCard(person, petAndPerson.getPersonIndex());
 
         Region petNode = petCard.getRoot();
         Region personNode = personCard.getRoot();

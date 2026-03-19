@@ -28,6 +28,10 @@ public class DeletePetCommand extends Command {
             + PREFIX_PHONE + "98765432 ";
 
     public static final String MESSAGE_SUCCESS = "Deleted pet: %1$s";
+    public static final String MESSAGE_NONEXISTENT_PERSON = "The person with this phone number"
+            + " does not exist in the address book";
+    public static final String MESSAGE_NONEXISTENT_PET = "The person with this phone number"
+            + " does not have a pet with this name";
 
     private final Pet toDelete;
     private final Phone ownerPhone;
@@ -44,6 +48,19 @@ public class DeletePetCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        // possible failures
+        // 1. no Person exists with the given Phone
+        // 2. Person with the given Phone does not have a Pet with given name
+        // 3. otherwise proceed
+
+        if (!model.hasPhone(ownerPhone)) {
+            throw new CommandException(MESSAGE_NONEXISTENT_PERSON);
+        }
+
+        if (!model.hasPet(ownerPhone, toDelete)) {
+            throw new CommandException(MESSAGE_NONEXISTENT_PET);
+        }
 
         model.removePet(toDelete, ownerPhone);
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toDelete)));

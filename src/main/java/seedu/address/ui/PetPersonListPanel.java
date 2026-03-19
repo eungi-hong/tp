@@ -49,15 +49,20 @@ public class PetPersonListPanel extends UiPart<Region> {
     private void createPetPersonList(ObservableList<Person> personList) {
         petPersonList.clear(); // remove the old data
 
+        int petCounter = 1;
+        int personCounter = 1;
+
         for (Person person : personList) {
             if (person.getPets().isEmpty()) {
                 Pet noPet = new Pet(new Name("No pets for this person"), "", "");
-                petPersonList.add(new PetAndPerson(noPet, person));
+                petPersonList.add(new PetAndPerson(noPet, person, 0, personCounter));
             } else {
                 for (Pet pet : person.getPets()) {
-                    petPersonList.add(new PetAndPerson(pet, person));
+                    petPersonList.add(new PetAndPerson(pet, person, petCounter, personCounter));
+                    petCounter++;
                 }
             }
+            personCounter++;
         }
     }
 
@@ -74,7 +79,7 @@ public class PetPersonListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(new PetPersonCard(item.getPet(), item.getPerson(), getIndex() + 1).getRoot());
+                setGraphic(new PetPersonCard(item).getRoot());
             }
         }
     }

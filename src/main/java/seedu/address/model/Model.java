@@ -65,6 +65,12 @@ public interface Model {
     boolean hasPhone(Phone phone);
 
     /**
+     * Returns true if a phone with the same number as {@code phone} exists in the address book
+     * and {@code pet} is owned by a person with this phone.
+     */
+    boolean hasPet(Phone phone, Pet pet);
+
+    /**
      * Deletes the given person.
      * The person must exist in the address book.
      */
