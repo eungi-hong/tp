@@ -3,6 +3,19 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.geometry.Insets?>
+<VBox fx:id="mainContainer" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+  <HBox>
+    <padding>
+      <Insets top="10" right="10" bottom="10" left="15" />
+    </padding>
+    <Label fx:id="petHeaderLabel" styleClass="header-label" />
+    <Region prefWidth="40" minWidth="40" />
+    <Label fx:id="clientHeaderLabel" styleClass="header-label" />
+  </HBox>
+
   <ListView fx:id="petPersonListView" VBox.vgrow="ALWAYS" />
 </VBox>
