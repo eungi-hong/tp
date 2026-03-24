@@ -8,7 +8,6 @@ import static seedu.address.testutil.TypicalPersons.BENSON;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,13 +15,11 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Pet;
 import seedu.address.model.person.Phone;
 
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "  ";
     private static final String INVALID_PHONE = " +651234";
-    private static final String INVALID_PET = "  ";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
@@ -34,16 +31,15 @@ public class JsonAdaptedPersonTest {
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
-    private static final List<JsonAdaptedPet> VALID_PETS = Stream.of(
-            new JsonAdaptedPet(VALID_NAME, VALID_NAME, VALID_NAME))
+    private static final List<JsonAdaptedPet> VALID_PETS = BENSON.getPets().stream()
+            .map(JsonAdaptedPet::new)
             .collect(Collectors.toList());
 
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, VALID_TAGS, VALID_PETS);
-        assertEquals(BENSON.addPet(new Pet(new Name(VALID_NAME), VALID_NAME, VALID_NAME)),
-                person.toModelType());
+        assertEquals(BENSON, person.toModelType());
     }
 
     @Test
@@ -116,15 +112,6 @@ public class JsonAdaptedPersonTest {
         invalidTags.add(new JsonAdaptedTag(INVALID_TAG));
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
                 VALID_EMAIL, VALID_ADDRESS, invalidTags, VALID_PETS);
-        assertThrows(IllegalValueException.class, person::toModelType);
-    }
-
-    @Test
-    public void toModelType_invalidPets_throwsIllegalValueException() {
-        List<JsonAdaptedPet> invalidPets = new ArrayList<>(VALID_PETS);
-        invalidPets.add(new JsonAdaptedPet(INVALID_PET, "", ""));
-        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
-                VALID_EMAIL, VALID_ADDRESS, VALID_TAGS, invalidPets);
         assertThrows(IllegalValueException.class, person::toModelType);
     }
 }

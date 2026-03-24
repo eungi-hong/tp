@@ -6,8 +6,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Name;
@@ -23,6 +26,12 @@ public class PetPersonListPanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(PetPersonListPanel.class);
 
     @FXML
+    private Label petHeaderLabel;
+
+    @FXML
+    private Label clientHeaderLabel;
+
+    @FXML
     private ListView<PetAndPerson> petPersonListView;
 
     private final ObservableList<PetAndPerson> petPersonList = FXCollections.observableArrayList();
@@ -32,6 +41,15 @@ public class PetPersonListPanel extends UiPart<Region> {
      */
     public PetPersonListPanel(ObservableList<Person> personList) {
         super(FXML);
+
+        HBox.setHgrow(petHeaderLabel, Priority.ALWAYS);
+        HBox.setHgrow(clientHeaderLabel, Priority.ALWAYS);
+
+        petHeaderLabel.setMaxWidth(Double.MAX_VALUE);
+        clientHeaderLabel.setMaxWidth(Double.MAX_VALUE);
+
+        petHeaderLabel.setText("Pet");
+        clientHeaderLabel.setText("Client");
 
         createPetPersonList(personList);
 
@@ -54,7 +72,11 @@ public class PetPersonListPanel extends UiPart<Region> {
 
         for (Person person : personList) {
             if (person.getPets().isEmpty()) {
-                Pet noPet = new Pet(new Name("No pets for this person"), "", "");
+                Pet noPet = new Pet(
+                        new Name("No pets for this person"),
+                        new Name("NIL"),
+                        new Name("NIL"),
+                        new Name("NIL"));
                 petPersonList.add(new PetAndPerson(noPet, person, 0, personCounter));
             } else {
                 for (Pet pet : person.getPets()) {

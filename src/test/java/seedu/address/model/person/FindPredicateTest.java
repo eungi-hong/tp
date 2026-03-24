@@ -46,28 +46,36 @@ public class FindPredicateTest {
         FindPredicate predicate = new FindPredicate(Arrays.asList("ALICE", "ceB", "Bob"));
         assertTrue(predicate.test(new PersonBuilder().withName("AliceBob").build()));
 
-        // Matching client name and pet name
+        // Fully matching client name and pet name
         predicate = new FindPredicate(Arrays.asList("Alice", "WooF"));
         assertTrue(predicate.test(new PersonBuilder().withName("Alice")
                 .withPet(new PetBuilder().withName("Woof").build())
                 .build()));
 
-        // Partial match on client phone and client tag
+        // Partially matching client phone and client tag
         predicate = new FindPredicate(Arrays.asList("Ali", "WOO"));
         assertTrue(predicate.test(new PersonBuilder()
                 .withPhone("AliceBob")
                 .withTags("Woof").build()));
 
-        // Matching client email and pet species
+        // Partially matching client email and pet species
         predicate = new FindPredicate(Arrays.asList("AlicE", "dog"));
         assertTrue(predicate.test(new PersonBuilder().withEmail("AliceBob@aa.com")
                 .withPet(new PetBuilder().withSpecies("doggy").build())
                 .build()));
 
-        // Matching client address and pet breed
+        // Partially matching client address and pet breed
         predicate = new FindPredicate(Arrays.asList("AlicE", "persian"));
         assertTrue(predicate.test(new PersonBuilder().withAddress("AliceBob")
-                .withPet(new PetBuilder().withBreed("Persian").build())
+                .withPet(new PetBuilder().withBreed("Persiane").build())
+                .build()));
+
+        // Partially matching pet breed and pet note
+        predicate = new FindPredicate(Arrays.asList("AlicE", "persian"));
+        assertTrue(predicate.test(new PersonBuilder()
+                .withPet(new PetBuilder()
+                        .withBreed("Persian")
+                        .withNote("alicee").build())
                 .build()));
 
         // Mixed-case keywords
@@ -85,6 +93,12 @@ public class FindPredicateTest {
         predicate = new FindPredicate(Arrays.asList("Bob", "Carol"));
         assertFalse(predicate.test(new PersonBuilder().withName("Alice Carol")
                 .withPet(new PetBuilder().withBreed("Persian").build())
+                .build()));
+
+        // Separated keyword
+        predicate = new FindPredicate(Arrays.asList("Bob"));
+        assertFalse(predicate.test(new PersonBuilder()
+                .withPet(new PetBuilder().withNote("Boab").build())
                 .build()));
     }
 

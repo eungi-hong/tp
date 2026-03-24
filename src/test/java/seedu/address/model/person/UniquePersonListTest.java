@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.testutil.PersonBuilder;
-import seedu.address.testutil.PetBuilder;
 
 public class UniquePersonListTest {
 
@@ -64,19 +63,15 @@ public class UniquePersonListTest {
 
     @Test
     public void containsPet_petInList_returnsTrue() {
-        Person validPerson = new PersonBuilder(ALICE)
-                .withPet(new PetBuilder().withName("Barkus").build())
-                .build();
-        Pet validPet = new Pet(new Name("Barkus"), "Dog", "Labrador");
+        Person validPerson = new PersonBuilder(ALICE).withPet(SNOOPY).build();
         uniquePersonList.add(validPerson);
-        assertTrue(uniquePersonList.containsPet(validPerson.getPhone(), validPet));
+        assertTrue(uniquePersonList.containsPet(validPerson.getPhone(), SNOOPY));
     }
 
     @Test
     public void containsPet_petNotInList_returnsFalse() {
-        Pet validPet = new Pet(new Name("Barkus"), "", "");
         uniquePersonList.add(ALICE);
-        assertFalse(uniquePersonList.containsPet(ALICE.getPhone(), validPet));
+        assertFalse(uniquePersonList.containsPet(ALICE.getPhone(), SNOOPY));
     }
 
     @Test
