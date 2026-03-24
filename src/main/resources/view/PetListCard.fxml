@@ -28,6 +28,7 @@
       </HBox>
       <Label fx:id="petSpecies" styleClass="cell_small_label" text="\$species" />
       <Label fx:id="petBreed" styleClass="cell_small_label" text="\$breed" />
+      <Label fx:id="petNote" styleClass="cell_small_label" text="\$note" />
     </VBox>
   </GridPane>
 </HBox>
