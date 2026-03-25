@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.address.logic.parser.CliSyntax.PLACEHOLDER_IMAGE_PATH;
 import static seedu.address.storage.JsonAdaptedPet.MISSING_FIELD_MESSAGE_FORMAT;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPets.SNOOPY;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Pet;
+import seedu.address.model.person.PhotoPath;
 
 public class JsonAdaptedPetTest {
     private static final String INVALID_NAME = "  ";
@@ -92,10 +95,20 @@ public class JsonAdaptedPetTest {
         assertThrows(IllegalValueException.class, expectedMessage, pet::toModelType);
     }
 
+    // Invalid photo paths will be replaced with the placeholder image path, so no exception is thrown.
     @Test
-    public void toModelType_invalidPetPhotoPath_throwsIllegalValueException() {
+    public void toModelType_invalidPetPhotoPath_returnsPetWithPlaceholderImage() throws Exception {
         JsonAdaptedPet pet = new JsonAdaptedPet(VALID_PET_NAME, VALID_PET_SPECIES, VALID_PET_BREED, VALID_PET_NOTE,
-                "invalid/photo/path");
+                "invalid/photo/path.png");
+        Pet expectedPet = new Pet(new Name(VALID_PET_NAME), new Name(VALID_PET_SPECIES), new Name(VALID_PET_BREED),
+                new Name(VALID_PET_NOTE), new PhotoPath(PLACEHOLDER_IMAGE_PATH.toString()));
+        assertEquals(expectedPet, pet.toModelType());
+    }
+
+    @Test
+    public void toModelType_nullPetPhotoPath_throwsIllegalValueException() {
+        JsonAdaptedPet pet = new JsonAdaptedPet(VALID_PET_NAME, VALID_PET_SPECIES, VALID_PET_BREED, VALID_PET_NOTE,
+                null);
         String expectedMessage = String.format(String.format(MISSING_FIELD_MESSAGE_FORMAT, "PhotoPath"));
         assertThrows(IllegalValueException.class, expectedMessage, pet::toModelType);
     }

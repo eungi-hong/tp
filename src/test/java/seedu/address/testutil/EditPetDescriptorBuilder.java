@@ -29,6 +29,7 @@ public class EditPetDescriptorBuilder {
         descriptor.setSpecies(pet.getSpecies());
         descriptor.setBreed(pet.getBreed());
         descriptor.setNote(pet.getNote());
+        descriptor.setPhotoPath(pet.getPhotoPath());
     }
 
     /**
