@@ -1,7 +1,11 @@
 package seedu.address.ui;
 
+import java.io.File;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Pet;
@@ -12,13 +16,15 @@ import seedu.address.model.person.Pet;
 public class PetCard extends UiPart<Region> {
 
     private static final String FXML = "PetListCard.fxml";
-
+    private static final String IMG_NOT_FOUND_PATH = "src/main/resources/images/image-not-found.png";
     /**
-     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
+     * Note: Certain keywords such as "location" and "resources" are reserved
+     * keywords in JavaFX.
      * As a consequence, UI elements' variable names cannot be set to such keywords
      * or an exception will be thrown by JavaFX during runtime.
      *
-     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
+     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The
+     *      issue on AddressBook level 4</a>
      */
 
     public final Pet pet;
@@ -33,6 +39,10 @@ public class PetCard extends UiPart<Region> {
     private Label petSpecies;
     @FXML
     private Label petBreed;
+    @FXML
+    private Label petNote;
+    @FXML
+    private ImageView petImage;
 
     /**
      * Creates a {@code PetCard} with the given {@code Pet} and index to display.
@@ -46,5 +56,20 @@ public class PetCard extends UiPart<Region> {
         petName.setText(pet.getName().toString());
         petSpecies.setText(pet.getSpecies().toString());
         petBreed.setText(pet.getBreed().toString());
+        setPetImage();
+    }
+
+    private void setPetImage() {
+        String imagePath = pet.getPhotoPath().toString();
+        Image image;
+        try {
+            File photo = new File(imagePath);
+            image = new Image(photo.toURI().toString());
+        } catch (Exception e) {
+            File photo = new File(IMG_NOT_FOUND_PATH);
+            image = new Image(photo.toURI().toString());
+        }
+
+        petImage.setImage(image);
     }
 }
