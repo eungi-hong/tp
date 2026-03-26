@@ -24,9 +24,16 @@ public class DeletePetCommand extends Command {
             + "User inputs: POSITION\n"
             + "Example: " + COMMAND_WORD + " 1";
 
+<<<<<<< HEAD
     public static final String MESSAGE_SUCCESS = "Deleted Pet: %1$s";
     public static final String MESSAGE_INDEX_TOO_SMALL = "The POSITION provided should be 1 or more";
     public static final String MESSAGE_INDEX_TOO_LARGE = "The POSITION provided is too large";
+=======
+    public static final String MESSAGE_SUCCESS = "Deleted pet: %1$s";
+    public static final String MESSAGE_NONEXISTENT_PERSON = "There is no client with this phone number";
+    public static final String MESSAGE_NONEXISTENT_PET = "The client with this phone number"
+            + " does not have a pet with this name";
+>>>>>>> upstream/master
 
     private final Index index;
 
