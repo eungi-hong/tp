@@ -19,11 +19,13 @@ public class DeletePersonCommand extends Command {
     public static final String COMMAND_WORD = "deleteClient";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the client identified by the index number used in the displayed client list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
+            + ": Deletes the client with the given POSITION.\n"
+            + "User inputs: POSITION\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Client: %1$s";
+    public static final String MESSAGE_INDEX_TOO_SMALL = "The POSITION provided should be 1 or more";
+    public static final String MESSAGE_INDEX_TOO_LARGE = "The POSITION provided is too large";
 
     private final Index targetIndex;
 
@@ -37,7 +39,7 @@ public class DeletePersonCommand extends Command {
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INDEX_TOO_LARGE);
         }
 
         Person personToDelete = lastShownList.get(targetIndex.getZeroBased());

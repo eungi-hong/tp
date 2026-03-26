@@ -1,241 +1,108 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.testutil.Assert.assertThrows;
-
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.function.Predicate;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
 
-import javafx.collections.ObservableList;
-import seedu.address.commons.core.GuiSettings;
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
-import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Pet;
 import seedu.address.model.person.Phone;
-import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PetBuilder;
 
+/**
+ * Contains integration tests (interaction with the Model) and unit tests for
+ * {@code DeletePetCommand}.
+ */
 public class DeletePetCommandTest {
 
+    private static final String FIRST_PERSON_PHONE = "94351253";
+    private static final String SECOND_PERSON_PHONE = "98765432";
+
     @Test
-    public void constructor_nullPet_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new DeletePetCommand(null, new Phone("99999999")));
+    public void execute_validIndexUnfilteredList_success() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Pet petToDelete = new PetBuilder().build();
+        model.addPet(petToDelete, new Phone(FIRST_PERSON_PHONE));
+
+        DeletePetCommand deletePetCommand = new DeletePetCommand(INDEX_FIRST_PERSON);
+        String expectedMessage = String.format(DeletePetCommand.MESSAGE_SUCCESS,
+                Messages.format(petToDelete));
+
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        assertCommandSuccess(deletePetCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
-    public void constructor_nullPhone_throwsNullPointerException() {
-        Pet validPet = new PetBuilder().build();
-        assertThrows(NullPointerException.class, () -> new DeletePetCommand(validPet, null));
+    public void execute_invalidIndexUnfilteredList_throwsCommandException() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Index outOfBoundIndex = Index.fromOneBased(100000);
+        DeletePetCommand deletePetCommand = new DeletePetCommand(outOfBoundIndex);
+
+        assertCommandFailure(deletePetCommand, model, DeletePetCommand.MESSAGE_INDEX_TOO_LARGE);
     }
 
     @Test
-    public void execute_petAcceptedByModel_deleteSuccessful() throws Exception {
-        Person validPerson = new PersonBuilder().build();
-        Pet validPet = new PetBuilder().build();
-        validPerson = validPerson.addPet(validPet);
-        ModelStubAcceptingPetDeleted modelStub = new ModelStubAcceptingPetDeleted(validPerson);
+    public void execute_filteredList_success() {
+        // filter second person to position 1, delete position 1's pet
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Pet distraction = new PetBuilder().withName("distraction").build();
+        Pet target = new PetBuilder().build();
+        model.addPet(distraction, new Phone(FIRST_PERSON_PHONE));
+        model.addPet(target, new Phone(SECOND_PERSON_PHONE));
 
-        CommandResult commandResult = new DeletePetCommand(validPet, validPerson.getPhone()).execute(modelStub);
+        showPersonAtIndex(model, INDEX_SECOND_PERSON);
 
-        assertEquals(String.format(DeletePetCommand.MESSAGE_SUCCESS, Messages.format(validPet)),
-                commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validPet), modelStub.petsDeleted);
+        DeletePetCommand deletePetCommand = new DeletePetCommand(INDEX_FIRST_PERSON);
+        String expectedMessage = String.format(DeletePetCommand.MESSAGE_SUCCESS,
+                Messages.format(target));
+
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        expectedModel.addPet(distraction, new Phone(FIRST_PERSON_PHONE));
+        showPersonAtIndex(expectedModel, INDEX_SECOND_PERSON);
+
+        assertCommandSuccess(deletePetCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void equals() {
-        Pet snoopy = new PetBuilder().withName("Snoopy").build();
-        Pet doggy = new PetBuilder().withName("Doggy").build();
-        DeletePetCommand deleteSnoopyCommand = new DeletePetCommand(snoopy, new Phone("99999999"));
-        DeletePetCommand deleteDoggyCommand = new DeletePetCommand(doggy, new Phone("99999999"));
+        DeletePetCommand deleteFirstCommand = new DeletePetCommand(INDEX_FIRST_PERSON);
+        DeletePetCommand deleteSecondCommand = new DeletePetCommand(INDEX_SECOND_PERSON);
 
         // same object -> returns true
-        assertTrue(deleteSnoopyCommand.equals(deleteSnoopyCommand));
+        assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
 
         // same values -> returns true
-        DeletePetCommand deleteSnoopyCommandCopy = new DeletePetCommand(snoopy, new Phone("99999999"));
-        assertTrue(deleteSnoopyCommand.equals(deleteSnoopyCommandCopy));
+        DeletePetCommand deleteFirstCommandCopy = new DeletePetCommand(INDEX_FIRST_PERSON);
+        assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
 
         // different types -> returns false
-        assertFalse(deleteSnoopyCommand.equals(1));
+        assertFalse(deleteFirstCommand.equals(1));
 
         // null -> returns false
-        assertFalse(deleteSnoopyCommand.equals(null));
+        assertFalse(deleteFirstCommand.equals(null));
 
-        // different pet -> returns false
-        assertFalse(deleteSnoopyCommand.equals(deleteDoggyCommand));
+        // different index -> returns false
+        assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
     }
 
     @Test
     public void toStringMethod() {
-        Pet snoopy = new PetBuilder().withName("Snoopy").build();
-        DeletePetCommand deletePetCommand = new DeletePetCommand(snoopy, new Phone("99999999"));
-        String expected = DeletePetCommand.class.getCanonicalName() + "{pet=" + snoopy + "}";
+        Index index = Index.fromOneBased(1);
+        DeletePetCommand deletePetCommand = new DeletePetCommand(index);
+        String expected = DeletePetCommand.class.getCanonicalName() + "{index=" + index + "}";
         assertEquals(expected, deletePetCommand.toString());
     }
-
-    /**
-     * A default model stub that have all of the methods failing.
-     */
-    private class ModelStub implements Model {
-        @Override
-        public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ReadOnlyUserPrefs getUserPrefs() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public GuiSettings getGuiSettings() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setGuiSettings(GuiSettings guiSettings) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Path getAddressBookFilePath() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setAddressBookFilePath(Path addressBookFilePath) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addPerson(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addPet(Pet pet, Phone phone) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void removePet(Pet pet, Phone phone) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setAddressBook(ReadOnlyAddressBook newData) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasPerson(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasPhone(Phone phone) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasPet(Phone phone, Pet pet) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deletePerson(Person target) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setPerson(Person target, Person editedPerson) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Person> getFilteredPersonList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-    }
-
-    /**
-     * A Model stub that contains a single person.
-     */
-    private class ModelStubWithPerson extends ModelStub {
-        private final Person person;
-
-        ModelStubWithPerson(Person person) {
-            requireNonNull(person);
-            this.person = person;
-        }
-
-        protected Person getPerson() {
-            return this.person;
-        }
-
-        @Override
-        public boolean hasPerson(Person person) {
-            requireNonNull(person);
-            return this.person.isSamePerson(person);
-        }
-    }
-
-    /**
-     * A Model stub that always accept the pet being deleted.
-     */
-    private class ModelStubAcceptingPetDeleted extends ModelStubWithPerson {
-        final ArrayList<Pet> petsDeleted = new ArrayList<>();
-
-        ModelStubAcceptingPetDeleted(Person person) {
-            super(person);
-        }
-
-        @Override
-        public boolean hasPhone(Phone phone) {
-            requireNonNull(phone);
-            return this.getPerson().getPhone().equals(phone);
-        }
-
-        @Override
-        public boolean hasPet(Phone phone, Pet pet) {
-            requireAllNonNull(phone, pet);
-            return this.getPerson().getPets().contains(pet);
-        }
-
-        @Override
-        public void removePet(Pet pet, Phone phone) {
-            requireAllNonNull(pet, phone);
-            this.getPerson().getPets().remove(pet);
-            petsDeleted.add(pet);
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
-        }
-    }
-
 }
