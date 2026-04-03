@@ -47,13 +47,13 @@ public class EditPetCommandParser implements Parser<EditPetCommand> {
             editPetDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
         if (argMultimap.getValue(PREFIX_SPECIES).isPresent()) {
-            editPetDescriptor.setSpecies(ParserUtil.parseName(argMultimap.getValue(PREFIX_SPECIES).get()));
+            editPetDescriptor.setSpecies(ParserUtil.parseSpecies(argMultimap.getValue(PREFIX_SPECIES).get()));
         }
         if (argMultimap.getValue(PREFIX_BREED).isPresent()) {
-            editPetDescriptor.setBreed(ParserUtil.parseName(argMultimap.getValue(PREFIX_BREED).get()));
+            editPetDescriptor.setBreed(ParserUtil.parseBreed(argMultimap.getValue(PREFIX_BREED).get()));
         }
         if (argMultimap.getValue(PREFIX_NOTE).isPresent()) {
-            editPetDescriptor.setNote(ParserUtil.parseName(argMultimap.getValue(PREFIX_NOTE).get()));
+            editPetDescriptor.setNote(ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).get()));
         }
         if (argMultimap.getValue(PREFIX_PHOTO).isPresent()) {
             editPetDescriptor.setPhotoPath(ParserUtil.parsePhotoPath(argMultimap.getValue(PREFIX_PHOTO).get()));
