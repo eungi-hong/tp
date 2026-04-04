@@ -7,9 +7,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SPECIES;
 
+import seedu.address.model.person.Breed;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Pet;
 import seedu.address.model.person.PhotoPath;
+import seedu.address.model.person.Species;
 
 /**
  * A utility class to help with building Pet objects.
@@ -23,9 +26,9 @@ public class PetBuilder {
     public static final String DEFAULT_PHOTO_PATH = PLACEHOLDER_IMAGE_PATH;
 
     private Name name;
-    private Name species;
-    private Name breed;
-    private Name note;
+    private Species species;
+    private Breed breed;
+    private Note note;
     private PhotoPath photoPath;
 
     /**
@@ -33,9 +36,9 @@ public class PetBuilder {
      */
     public PetBuilder() {
         name = new Name(DEFAULT_NAME);
-        species = new Name(DEFAULT_SPECIES);
-        breed = new Name(DEFAULT_BREED);
-        note = new Name(DEFAULT_NOTE);
+        species = new Species(DEFAULT_SPECIES);
+        breed = new Breed(DEFAULT_BREED);
+        note = new Note(DEFAULT_NOTE);
         photoPath = new PhotoPath(DEFAULT_PHOTO_PATH);
     }
 
@@ -62,7 +65,7 @@ public class PetBuilder {
      * Sets the {@code Species} of the {@code Person} that we are building.
      */
     public PetBuilder withSpecies(String species) {
-        this.species = new Name(species);
+        this.species = new Species(species);
         return this;
     }
 
@@ -70,7 +73,7 @@ public class PetBuilder {
      * Sets the {@code Breed} of the {@code Person} that we are building.
      */
     public PetBuilder withBreed(String breed) {
-        this.breed = new Name(breed);
+        this.breed = new Breed(breed);
         return this;
     }
 
@@ -78,7 +81,7 @@ public class PetBuilder {
      * Sets the {@code Note} of the {@code Person} that we are building.
      */
     public PetBuilder withNote(String note) {
-        this.note = new Name(note);
+        this.note = new Note(note);
         return this;
     }
 
