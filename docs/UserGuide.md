@@ -6,11 +6,13 @@
 
 # Hairy Pawter User Guide
 
-Hairy Pawter is a desktop app created to help pet groomers reach their clients.
-It works independently of other apps, and can help groomers with existing scheduling systems.
+Hairy Pawter is a desktop app designed to help pet groomers keep track of their clients and pets, especially regulars. It lets groomers store contact details and important records in one place, making it easier to manage repeat visits without confusion.
 
-Use Hairy Pawter to quickly jot down contact details of clients and their pets when they arrive,
-so that after grooming a pet, you can quickly find the details of the owner and contact them.
+With Hairy Pawter, groomers can quickly look up pet and owner information, stay organized, and reduce mix-ups or missed details. It gives groomers a simple way to keep their daily operations smooth and reliable.
+
+
+If you are new to HairyPawter, start with [Installation](#installation).
+If you are looking for a specific command, jump to the [Command Summary](#command-summary).
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -88,7 +90,7 @@ Registers a new client. The new client will be shown on the list.
 
 <box type="tip" seamless>
 
-**Important:** Clients can have the same name, but never the same phone number
+**Important:** Clients can have the same name, email, or address, but never the same phone number
 </box>
 
 Format: `addClient n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
@@ -100,6 +102,11 @@ Examples:
 ### Adding a pet: `addPet`
 
 Registers a new pet of a client. The name of the pet and the **phone number of the client** are needed.
+
+<box type="tip" seamless>
+
+**Important:** Pets of the same client can have the same species, breed, notes, and photo, but never the same name.
+</box>
 
 Format: `addPet n/NAME p/PHONE_NUMBER​ [s/SPECIES] [b/BREED] [nt/NOTES] [ph/PHOTO]`
 
