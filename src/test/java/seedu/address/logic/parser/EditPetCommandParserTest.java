@@ -31,37 +31,41 @@ import seedu.address.testutil.EditPetDescriptorBuilder;
 
 public class EditPetCommandParserTest {
 
-    private static final String MESSAGE_INDEX_TOO_SMALL = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-            EditPetCommand.MESSAGE_INDEX_TOO_SMALL);
+    private static final String MESSAGE_NO_INDEX_PASSED = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            EditPetCommand.MESSAGE_NO_INDEX_PASSED);
     private static final String MESSAGE_NOT_EDITED = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-            EditPetCommand.MESSAGE_NOT_EDITED);
+            EditPetCommand.MESSAGE_NOT_EDITED + System.lineSeparator() + EditPetCommand.MESSAGE_USAGE);
+    private static final String MESSAGE_INVALID_INDEX = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            ParserUtil.MESSAGE_INVALID_INDEX + System.lineSeparator() + EditPetCommand.MESSAGE_USAGE);
+    private static final String MESSAGE_MANY_WORDS = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            EditPetCommand.MESSAGE_USAGE);
     private EditPetCommandParser parser = new EditPetCommandParser();
 
     @Test
     public void parse_missingParts_failure() {
         // no index specified
-        assertParseFailure(parser, VALID_PET_NAME, MESSAGE_INDEX_TOO_SMALL);
+        assertParseFailure(parser, VALID_PET_NAME_DESC, MESSAGE_NO_INDEX_PASSED);
 
         // no field specified
         assertParseFailure(parser, "1", MESSAGE_NOT_EDITED);
 
         // no index and no field specified
-        assertParseFailure(parser, "", MESSAGE_INDEX_TOO_SMALL);
+        assertParseFailure(parser, "", MESSAGE_NO_INDEX_PASSED);
     }
 
     @Test
     public void parse_invalidPreamble_failure() {
         // negative index
-        assertParseFailure(parser, "-5" + VALID_PET_NAME_DESC, MESSAGE_INDEX_TOO_SMALL);
+        assertParseFailure(parser, "-5" + VALID_PET_NAME_DESC, MESSAGE_INVALID_INDEX);
 
         // zero index
-        assertParseFailure(parser, "0" + VALID_PET_NAME_DESC, MESSAGE_INDEX_TOO_SMALL);
+        assertParseFailure(parser, "0" + VALID_PET_NAME_DESC, MESSAGE_INVALID_INDEX);
 
         // invalid arguments being parsed as preamble
-        assertParseFailure(parser, "1 some random string", MESSAGE_INDEX_TOO_SMALL);
+        assertParseFailure(parser, "1 some random string", MESSAGE_MANY_WORDS);
 
         // invalid prefix being parsed as preamble
-        assertParseFailure(parser, "1 i/ string", MESSAGE_INDEX_TOO_SMALL);
+        assertParseFailure(parser, "1 i/ string", MESSAGE_MANY_WORDS);
     }
 
     @Test

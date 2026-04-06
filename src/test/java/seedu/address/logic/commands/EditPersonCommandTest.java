@@ -27,7 +27,6 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
-import seedu.address.testutil.PetBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
@@ -40,9 +39,12 @@ public class EditPersonCommandTest {
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person withPets = new PersonBuilder(personInFilteredList).withPet(new PetBuilder().build()).build();
-        model.setPerson(personInFilteredList, withPets);
-        Person editedPerson = new PersonBuilder(withPets).withAddress("a").build();
+        Person editedPerson = new PersonBuilder(personInFilteredList)
+                .withName("a")
+                .withAddress("a")
+                .withEmail("aa@example.com")
+                .withPhone("123")
+                .withTags("123").build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditPersonCommand editPersonCommand = new EditPersonCommand(INDEX_FIRST_PERSON, descriptor);
 
@@ -50,7 +52,8 @@ public class EditPersonCommandTest {
                 Messages.format(editedPerson));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
+        expectedModel.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()),
+                editedPerson);
 
         assertCommandSuccess(editPersonCommand, model, expectedMessage, expectedModel);
     }

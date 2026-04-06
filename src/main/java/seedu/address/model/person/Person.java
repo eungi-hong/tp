@@ -111,6 +111,15 @@ public class Person {
     }
 
     /**
+     * Replaces the existing pet with the replacement and returns the updated person.
+     */
+    public Person setPet(Pet existing, Pet replacement) {
+        List<Pet> list = this.getPets();
+        list.set(list.indexOf(existing), replacement);
+        return new Person(new Person(this.name, this.phone, this.email, this.address, this.tags), list);
+    }
+
+    /**
      * Removes a pet from the person's pet set and returns the updated person.
      */
     public Person removePet(Pet pet) {

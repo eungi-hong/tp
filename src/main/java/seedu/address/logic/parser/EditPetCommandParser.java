@@ -31,11 +31,23 @@ public class EditPetCommandParser implements Parser<EditPetCommand> {
                 PREFIX_NAME, PREFIX_SPECIES, PREFIX_BREED, PREFIX_NOTE, PREFIX_PHOTO);
         Index index;
 
+        if (argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    EditPetCommand.MESSAGE_NO_INDEX_PASSED));
+        }
+
+        if (ParserUtil.multipleWords(argMultimap.getPreamble())) {
+            //more than one word
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    EditPetCommand.MESSAGE_USAGE));
+        }
+
         try {
+            //index not number
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    EditPetCommand.MESSAGE_INDEX_TOO_SMALL),
+                    pe.getMessage() + System.lineSeparator() + EditPetCommand.MESSAGE_USAGE),
                     pe);
         }
 
@@ -61,7 +73,7 @@ public class EditPetCommandParser implements Parser<EditPetCommand> {
 
         if (!editPetDescriptor.isAnyFieldEdited()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    EditPetCommand.MESSAGE_NOT_EDITED));
+                    EditPetCommand.MESSAGE_NOT_EDITED + System.lineSeparator() + EditPetCommand.MESSAGE_USAGE));
         }
 
         return new EditPetCommand(index, editPetDescriptor);

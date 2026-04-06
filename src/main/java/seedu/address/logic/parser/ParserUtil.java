@@ -22,7 +22,7 @@ import seedu.address.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_INDEX = "POSITION is not an accepted number.";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading
@@ -140,5 +140,13 @@ public class ParserUtil {
             throw new ParseException(PhotoPath.MESSAGE_CONSTRAINTS);
         }
         return new PhotoPath(trimmedPath);
+    }
+
+    /**
+     * Returns true if the input string has multiple words
+     */
+    public static boolean multipleWords(String s) {
+        String[] arr = s.split(" ");
+        return arr.length != 1;
     }
 }

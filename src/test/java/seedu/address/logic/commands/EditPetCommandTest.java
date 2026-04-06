@@ -7,7 +7,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalPets.MEOWY;
 import static seedu.address.testutil.TypicalPets.SNOOPY;
@@ -32,7 +32,7 @@ import seedu.address.testutil.PetBuilder;
 public class EditPetCommandTest {
 
     private static final String FIRST_PERSON_PHONE = "94351253";
-    private static final String SECOND_PERSON_PHONE = "98765432";
+    private static final String THIRD_PERSON_PHONE = "95352563";
     private static final String DEFAULT_PET_NAME = PetBuilder.DEFAULT_NAME;
     private static final String DIFFERENT_PET_NAME = "not same as petbuilder";
 
@@ -138,9 +138,9 @@ public class EditPetCommandTest {
         Pet distraction = new PetBuilder().withName("distraction").build();
         Pet target = new PetBuilder().build();
         model.addPet(distraction, new Phone(FIRST_PERSON_PHONE));
-        model.addPet(target, new Phone(SECOND_PERSON_PHONE));
+        model.addPet(target, new Phone(THIRD_PERSON_PHONE));
 
-        showPersonAtIndex(model, INDEX_SECOND_PERSON);
+        showPersonAtIndex(model, INDEX_THIRD_PERSON);
 
         Pet editedPet = new PetBuilder().withName(DIFFERENT_PET_NAME).build();
         EditPetCommand editPetCommand = new EditPetCommand(INDEX_FIRST_PERSON,
@@ -150,8 +150,8 @@ public class EditPetCommandTest {
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.addPet(distraction, new Phone(FIRST_PERSON_PHONE));
-        expectedModel.addPet(editedPet, new Phone(SECOND_PERSON_PHONE));
-        showPersonAtIndex(expectedModel, INDEX_SECOND_PERSON);
+        expectedModel.addPet(editedPet, new Phone(THIRD_PERSON_PHONE));
+        showPersonAtIndex(expectedModel, INDEX_THIRD_PERSON);
         assertCommandSuccess(editPetCommand, model, expectedMessage, expectedModel);
     }
 
@@ -199,7 +199,7 @@ public class EditPetCommandTest {
         assertFalse(standardCommand.equals(new ClearCommand()));
 
         // different index -> returns false
-        assertFalse(standardCommand.equals(new EditPetCommand(INDEX_SECOND_PERSON, descriptor)));
+        assertFalse(standardCommand.equals(new EditPetCommand(INDEX_THIRD_PERSON, descriptor)));
 
         // different descriptor -> returns false
         EditPetDescriptor differentDescriptor = new EditPetDescriptorBuilder().withName(DEFAULT_PET_NAME).build();
