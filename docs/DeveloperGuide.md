@@ -72,7 +72,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/AY2
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PetPersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-Additionally, `PetPersonCard` displays a client on the right and all the pets they own on the left. Hence, it contains 1 `PersonCard` and any number of `PetCard` objects. 
+Additionally, `PetPersonCard` displays a client on the right and all the pets they own on the left. Hence, it contains 1 `PersonCard` and any number of `PetCard` objects.
 This ensures that all pets of a client are shown together, which is easier for our users to handle.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
@@ -271,7 +271,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 * prefers typing to mouse interactions
 * is reasonably comfortable typing simple commands
 
-**Value proposition**: 
+**Value proposition**:
 
 * fast retrieval of pet and client information
 * clear pet -> client (owner) relationship tracking
@@ -303,7 +303,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | user     | search for clients by contact details | quickly locate a specific client's details |
 | `* *`    | user     | search for pets by attributes    | quickly find a specific pet's details |
 | `* *`    | user     | attach photos to pets      | record what the pets look like in real life |
-| `* *`    | user     | view a pet's photos        | identify pets quickly in real life | 
+| `* *`    | user     | view a pet's photos        | identify pets quickly in real life |
 | `* *`    | user     | edit a pet's photos      | update pet photos with more recent versions |
 | `* *`    | user     | delete a pet's photos      | remove outdated pet photos |
 | `* *`    | new user | purge (delete all) existing pets | clear any dummy pet information once I have familiarised with the app |
@@ -312,7 +312,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | user     | view grooming notes for a pet | recall a pet's special requirements |
 | `* *`    | user     | update grooming notes for a pet | update a pet's requirements as they change |
 | `* *`    | user     | delete grooming notes for a pet | remove outdated information |
-| `* *`    | experienced user | attach tags to clients | categorize different types of clients | 
+| `* *`    | experienced user | attach tags to clients | categorize different types of clients |
 | `*`    | experienced user | attach tags to pets    | flag out pets with special requirements |   |
 | `*`    | user     | add appointment | schedule future appointments |
 | `*`    | user     | view all appointments | see what upcoming appointments I have |
