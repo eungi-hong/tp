@@ -195,6 +195,11 @@ Format: `deletePet POSITION`
 Examples:
 * `deletePet 1`
 
+<box type="warning" seamless>
+
+**Note:** Unlike adding pets (which uses owner's phone number), deleting pets uses the global pet position number shown in the list, not the pet's name or owner's phone number.
+</box>
+
 ### Clearing all records : `clear`
 
 Clears all records from memory.
