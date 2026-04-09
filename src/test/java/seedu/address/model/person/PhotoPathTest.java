@@ -76,7 +76,6 @@ public class PhotoPathTest {
     @Test
     public void isValidPhotoPath_directoryPath_returnsFalse(@TempDir File tempDir) {
         // Test that a directory path returns false even if it exists
-        // This tests the file.isFile() part of line 63
         assertFalse(PhotoPath.isValidPhotoPath(tempDir.getAbsolutePath()));
     }
 }
