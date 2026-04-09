@@ -262,6 +262,10 @@ Furthermore, certain edits can cause the app to behave in unexpected ways (e.g.,
 
 ## FAQ
 
+**Q**: Is it safe to click the close button instead of typing `exit`?<br>
+**A**: Yes.
+
+
 **Q**: What should I do if I have clients who do not have a phone?<br>
 **A**: You can put their preferred contact method under [p/PHONE_NUMBER].
 
@@ -271,8 +275,8 @@ Furthermore, certain edits can cause the app to behave in unexpected ways (e.g.,
 One way to do this is to close the app and manually reorder the clients in the data file.
 
 
-**Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Hairy Pawter home folder.
+**Q**: How do I transfer my data to another computer?<br>
+**A**: Install the app on the other computer and replace the data file on the other computer.
 
 --------------------------------------------------------------------------------------------------------------------
 
