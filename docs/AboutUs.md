@@ -18,6 +18,7 @@ We extended [AddressBook Level-3](https://se-education.org/addressbook-level3/) 
 
 
 * Role: Developer
+* Responsibilities: Testing
 
 ### Hong Eungi
 
@@ -28,7 +29,7 @@ We extended [AddressBook Level-3](https://se-education.org/addressbook-level3/) 
 
 
 * Role: Developer
-* Responsibilities: Testing
+* Responsibilities: Model & Storage component
 
 ### Jotham Lim
 
@@ -37,7 +38,7 @@ We extended [AddressBook Level-3](https://se-education.org/addressbook-level3/) 
 [[github](http://github.com/endersky)]
 
 * Role: Developer
-* Responsibilities: Backend
+* Responsibilities: Model component
 
 ### Kwey Xiu Xi
 
@@ -46,7 +47,7 @@ We extended [AddressBook Level-3](https://se-education.org/addressbook-level3/) 
 [[github](http://github.com/xiuxikwey)]
 
 * Role: Team Lead
-* Responsibilities: Development + Documentation
+* Responsibilities: Logic component + Documentation
 
 ### Subramanian Ramasamy
 
@@ -55,4 +56,4 @@ We extended [AddressBook Level-3](https://se-education.org/addressbook-level3/) 
 [[github](http://github.com/ram-nush)]
 
 * Role: Developer
-* Responsibilities: Documentation + UI
+* Responsibilities: UI component
