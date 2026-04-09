@@ -7,7 +7,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SPECIES;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,10 +49,11 @@ public class EditPetCommand extends Command {
             + PREFIX_PHOTO + "C:\\Users\\DummyUser\\Photos\\meowy.png";
 
     public static final String MESSAGE_EDIT_PET_SUCCESS = "Edited Pet: %1$s";
-    public static final String MESSAGE_INDEX_TOO_SMALL = "The POSITION provided should be 1 or more";
-    public static final String MESSAGE_INDEX_TOO_LARGE = "The POSITION provided is too large";
+    public static final String MESSAGE_NO_INDEX_PASSED = "No POSITION was detected.";
+    public static final String MESSAGE_INDEX_TOO_LARGE = "The POSITION provided is too large.";
+    public static final String MESSAGE_MANY_WORDS = "There are unrecognised words behind the POSITION.";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PET = "This pet already exists.";
+    public static final String MESSAGE_DUPLICATE_PET = "A pet with this name and owner already exists.";
 
     private final Index index;
     private final EditPetDescriptor editPetDescriptor;
@@ -72,30 +72,23 @@ public class EditPetCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> personList = model.getFilteredPersonList();
 
-        Person owner = null;
-        Pet petToEdit = null;
-        int petCounter = 0;
-        for (Person person : personList) {
-            for (Pet pet : person.getPets()) {
-                petCounter++;
-                if (petCounter == index.getOneBased()) {
-                    owner = person;
-                    petToEdit = pet;
-                }
-            }
-        }
-        if (petToEdit == null) {
+        Person owner;
+        Pet petToEdit;
+        try {
+            owner = model.getPet(index).getKey();
+            petToEdit = model.getPet(index).getValue();
+        } catch (IndexOutOfBoundsException e) {
             throw new CommandException(MESSAGE_INDEX_TOO_LARGE);
         }
+
         Pet editedPet = createEditedPet(petToEdit, editPetDescriptor);
 
         if (owner.removePet(petToEdit).getPets().contains(editedPet)) {
             throw new CommandException(MESSAGE_DUPLICATE_PET);
         }
 
-        model.setPerson(owner, owner.removePet(petToEdit).addPet(editedPet));
+        model.setPerson(owner, owner.setPet(petToEdit, editedPet));
         return new CommandResult(String.format(MESSAGE_EDIT_PET_SUCCESS, Messages.format(editedPet)));
     }
 

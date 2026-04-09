@@ -707,5 +707,5 @@ An unexpected challenge was addressing pets with indexes, since we only had an O
 Team size: 5
 
 1. **Make find function more specific:** The current find function returns pets that are not related to the search.
-The find function can be made more specific by saving an additional predicate in the model that takes in a pet and a person.
-The UI and commands that use indexes will have to traverse the observableList using the predicate.
+The find function can be made more specific by saving an additional predicate in the model that takes in a pair of pet and person.
+The methods getFilteredPersonList(), getPerson() and getPet() will use the additional predicate to do another round of filtering.

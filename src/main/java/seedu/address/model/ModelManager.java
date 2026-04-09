@@ -9,8 +9,10 @@ import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.util.Pair;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.index.Index;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Pet;
 import seedu.address.model.person.Phone;
@@ -110,6 +112,27 @@ public class ModelManager implements Model {
     @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
+    }
+
+    @Override
+    public Person getPerson(Index index) throws IndexOutOfBoundsException {
+        requireNonNull(index);
+        return filteredPersons.get(index.getZeroBased());
+    }
+
+    @Override
+    public Pair<Person, Pet> getPet(Index index) throws IndexOutOfBoundsException {
+        requireNonNull(index);
+        int petCounter = 0;
+        for (Person person : filteredPersons) {
+            for (Pet pet : person.getPets()) {
+                petCounter++;
+                if (petCounter == index.getOneBased()) {
+                    return new Pair<>(person, pet);
+                }
+            }
+        }
+        throw new IndexOutOfBoundsException();
     }
 
     @Override

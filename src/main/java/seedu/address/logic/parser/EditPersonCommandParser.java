@@ -38,11 +38,23 @@ public class EditPersonCommandParser implements Parser<EditPersonCommand> {
 
         Index index;
 
+        if (argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    EditPersonCommand.MESSAGE_NO_INDEX_PASSED));
+        }
+
+        if (ParserUtil.multipleWords(argMultimap.getPreamble())) {
+            //more than one word
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    EditPersonCommand.MESSAGE_MANY_WORDS + System.lineSeparator() + EditPersonCommand.MESSAGE_USAGE));
+        }
+
         try {
+            //index not number
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    EditPersonCommand.MESSAGE_INDEX_TOO_SMALL),
+                    pe.getMessage() + System.lineSeparator() + EditPersonCommand.MESSAGE_USAGE),
                     pe);
         }
 
@@ -66,7 +78,7 @@ public class EditPersonCommandParser implements Parser<EditPersonCommand> {
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    EditPersonCommand.MESSAGE_NOT_EDITED));
+                    EditPersonCommand.MESSAGE_NOT_EDITED + System.lineSeparator() + EditPersonCommand.MESSAGE_USAGE));
         }
 
         return new EditPersonCommand(index, editPersonDescriptor);

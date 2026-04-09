@@ -9,7 +9,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -50,8 +49,9 @@ public class EditPersonCommand extends Command {
             + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Client: %1$s";
-    public static final String MESSAGE_INDEX_TOO_SMALL = "The POSITION provided should be 1 or more";
-    public static final String MESSAGE_INDEX_TOO_LARGE = "The POSITION provided is too large";
+    public static final String MESSAGE_NO_INDEX_PASSED = "No POSITION was detected.";
+    public static final String MESSAGE_INDEX_TOO_LARGE = "The POSITION provided is too large.";
+    public static final String MESSAGE_MANY_WORDS = "There are unrecognised words behind the POSITION.";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "A client with this phone number already exists.";
 
@@ -72,13 +72,14 @@ public class EditPersonCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> personList = model.getFilteredPersonList();
 
-        if (index.getZeroBased() >= personList.size()) {
+        Person personToEdit;
+        try {
+            personToEdit = model.getPerson(index);
+        } catch (IndexOutOfBoundsException e) {
             throw new CommandException(MESSAGE_INDEX_TOO_LARGE);
         }
 
-        Person personToEdit = personList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {

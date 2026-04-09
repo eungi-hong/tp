@@ -4,7 +4,9 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.commons.core.index.Index;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Pet;
 import seedu.address.model.person.Phone;
@@ -87,6 +89,18 @@ public interface Model {
      * {@code person} must not already exist in the address book.
      */
     void addPersonToFront(Person person);
+
+    /**
+     * Returns the person at given index.
+     * Throws IndexOutOfBoundsException if the index too large.
+     */
+    Person getPerson(Index index) throws IndexOutOfBoundsException;
+
+    /**
+     * Returns the pet and owner at the given index.
+     * Throws IndexOutOfBoundsException if the index is too large.
+     */
+    public Pair<Person, Pet> getPet(Index index) throws IndexOutOfBoundsException;
 
     void addPet(Pet pet, Phone phone);
 
