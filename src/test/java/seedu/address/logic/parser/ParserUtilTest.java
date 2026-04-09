@@ -212,4 +212,20 @@ public class ParserUtilTest {
         PhotoPath expectedPhotoPath = new PhotoPath(VALID_PHOTO_PATH);
         assertEquals(expectedPhotoPath, ParserUtil.parsePhotoPath(VALID_PHOTO_PATH));
     }
+
+    @Test
+    public void parsePhotoPath_doubleQuotedPath_stripsQuotes() throws Exception {
+        // Covers the double-quote stripping branch in parsePhotoPath
+        String doubleQuotedPath = "\"" + VALID_PHOTO_PATH + "\"";
+        PhotoPath expectedPhotoPath = new PhotoPath(VALID_PHOTO_PATH);
+        assertEquals(expectedPhotoPath, ParserUtil.parsePhotoPath(doubleQuotedPath));
+    }
+
+    @Test
+    public void parsePhotoPath_singleQuotedPath_stripsQuotes() throws Exception {
+        // Covers the single-quote stripping branch in parsePhotoPath
+        String singleQuotedPath = "'" + VALID_PHOTO_PATH + "'";
+        PhotoPath expectedPhotoPath = new PhotoPath(VALID_PHOTO_PATH);
+        assertEquals(expectedPhotoPath, ParserUtil.parsePhotoPath(singleQuotedPath));
+    }
 }

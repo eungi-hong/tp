@@ -183,11 +183,18 @@ public class ParserUtil {
      */
     public static PhotoPath parsePhotoPath(String path) throws ParseException {
         requireNonNull(path);
-        String trimmedPath = path.trim();
-        if (!PhotoPath.isValidPhotoPath(trimmedPath)) {
+        String normalized = path.trim();
+        // Strip surrounding quotes (double or single)
+        if ((normalized.startsWith("\"") && normalized.endsWith("\""))
+                || (normalized.startsWith("'") && normalized.endsWith("'"))) {
+            normalized = normalized.substring(1, normalized.length() - 1);
+        }
+        // Replace backslashes with forward slashes for consistent storage
+        normalized = normalized.replace('\\', '/');
+        if (!PhotoPath.isValidPhotoPath(normalized)) {
             throw new ParseException(PhotoPath.MESSAGE_CONSTRAINTS);
         }
-        return new PhotoPath(trimmedPath);
+        return new PhotoPath(normalized);
     }
 
     /**
