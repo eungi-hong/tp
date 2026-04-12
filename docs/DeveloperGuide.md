@@ -76,7 +76,7 @@ The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `Re
 Additionally, `PetPersonCard` displays a client on the right and all the pets they own on the left. Hence, it contains 1 `PersonCard` and any number of `PetCard` objects.
 This ensures that all pets of a client are shown together, which is easier for our users to handle.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S2-CS2103T-F14-2/tp/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103T-F14-2/tp/tree/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -121,7 +121,7 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 
 How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddPersonCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddPersonCommand`) which the `AddressBookParser` returns back as a `Command` object.
-* All `XYZCommandParser` classes (e.g., `AddPersonCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
+* All `XYZCommandParser` classes (e.g., `AddPersonCommandParser`, `DeletePersonCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
 **API** : [`Model.java`](https://github.com/AY2526S2-CS2103T-F14-2/tp/tree/master/src/main/java/seedu/address/model/Model.java)
@@ -132,7 +132,7 @@ The `Model` component,
 
 * stores the address book data i.e., all `Person` (client) objects (which are contained in a `UniquePersonList` object).
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores a `UserPrefs` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPrefs` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components).
 
 <puml src="diagrams/ModelSequenceDiagram.puml" alt="Interactions Inside the Model Component for the `deleteClient 1` Command" />
@@ -151,7 +151,7 @@ How the `Model` component works:
 
 The `Storage` component,
 * can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+* inherits from both `AddressBookStorage` and `UserPrefsStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 --------------------------------------------------------------------------------------------------------------------
@@ -194,11 +194,11 @@ Step 1. The user launches the application for the first time. The `VersionedAddr
 
 <puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
 
-Step 2. The user executes `deleteClient 5` command to delete the 5th client in the address book. The `deleteClient` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `deleteClient 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The user executes `deleteClient 5` command to delete the 5th client. Internally, the command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `deleteClient 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
 
 <puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
 
-Step 3. The user executes `addClient n/David p/PHONE …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+Step 3. The user executes `addClient n/David p/PHONE …​` to add a new person. The command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
 
 <puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
 
@@ -208,7 +208,7 @@ Step 3. The user executes `addClient n/David p/PHONE …​` to add a new person
 
 </box>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+Step 4. The user now decides that adding the client was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
 
 <puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
 
@@ -515,41 +515,27 @@ A **Precondition** is that the system is displaying the list of clients and pets
 
       Use case resumes at step 3.
 
-**Use case 7: Search for pet of client**
+**Use case 7: Search for pet or client**
 
 **MSS**
 
-1.  User looks for the pet using keywords.
+1.  User requests to filter the list.
+2.  System displays a filtered list.
+3.  User looks for their pet or client.
 
     Use case ends.
 
 **Extensions**
 
-* 1a. The pet does not exist.
+* 2a. The user wants to use a different filter.
 
-    * 1a1. System notifies user.
-     Use case ends.
+     Use case resumes at step 1.
 
-**Use case 8: Search for client**
-
-**MSS**
-
-1.  User looks for the client using keywords.
-
-    Use case ends.
-
-**Extensions**
-
-* 1a. The pet does not exist.
-
-    * 1a1. System notifies user.
-     Use case ends.
-
-**Use case 9: Delete all records**
+**Use case 8: Delete all records**
 
 **MSS**
 
-1.  User clears all stored client and pet information.
+1.  User requests to clear all stored information.
 2.  System deletes all records and displays the empty list.
 
     Use case ends.
