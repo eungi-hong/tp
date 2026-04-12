@@ -42,7 +42,7 @@ public class AddPetCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New pet added: %1$s";
     public static final String MESSAGE_NONEXISTENT_PERSON = "There is no client with this phone number";
-    public static final String MESSAGE_DUPLICATE_PET = "This pet already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_PET = "This pet already exists.";
 
     private final Pet toAdd;
     private final Phone ownerPhone;

@@ -57,7 +57,9 @@ public class Messages {
      */
     public static String format(Pet pet) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(pet.getName());
+        builder.append(pet.getName()).append("; Species: ").append(pet.getSpecies())
+                .append("; Breed: ").append(pet.getBreed())
+                .append("; Notes: ").append(pet.getNote());
         return builder.toString();
     }
 
