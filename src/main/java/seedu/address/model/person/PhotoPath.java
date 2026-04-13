@@ -16,12 +16,12 @@ import java.nio.file.Paths;
  */
 public class PhotoPath {
 
-    private static final Path DATA_PHOTOS_DIR = Paths.get("data", "photos");
-
     public static final String MESSAGE_CONSTRAINTS = "Photo path must be a valid file path "
             + "to an existing image file and cannot be empty. "
             + "Relative paths are resolved from data/photos/. "
             + "Accepted file extensions: .jpg, .jpeg, .jfif, .png, .gif, .bmp";
+
+    private static final Path DATA_PHOTOS_DIR = Paths.get("data", "photos");
 
     public final String value;
 
