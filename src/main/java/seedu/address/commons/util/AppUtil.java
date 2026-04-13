@@ -20,6 +20,7 @@ import seedu.address.commons.core.LogsCenter;
 public class AppUtil {
 
     private static final Logger logger = LogsCenter.getLogger(AppUtil.class);
+    private static final Path DATA_PHOTOS_DIR = Paths.get("data", "photos");
 
     /**
     * Loads an image from the specified path. If the image cannot be loaded, a
@@ -40,6 +41,9 @@ public class AppUtil {
             } else {
                 // Try as a filesystem path (handles normalized forward-slash paths on all OSes)
                 Path photoPath = Paths.get(imagePath);
+                if (!photoPath.isAbsolute()) {
+                    photoPath = DATA_PHOTOS_DIR.resolve(photoPath).normalize();
+                }
                 if (!Files.exists(photoPath) || !Files.isRegularFile(photoPath)) {
                     throw new IOException("Image file not found: " + imagePath);
                 }

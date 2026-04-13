@@ -16,8 +16,11 @@ import java.nio.file.Paths;
  */
 public class PhotoPath {
 
+    private static final Path DATA_PHOTOS_DIR = Paths.get("data", "photos");
+
     public static final String MESSAGE_CONSTRAINTS = "Photo path must be a valid file path "
             + "to an existing image file and cannot be empty. "
+            + "Relative paths are resolved from data/photos/. "
             + "Accepted file extensions: .jpg, .jpeg, .jfif, .png, .gif, .bmp";
 
     public final String value;
@@ -62,7 +65,10 @@ public class PhotoPath {
         // Then, try as a filesystem path using java.nio.file.Path
         try {
             Path path = Paths.get(test);
-            return Files.exists(path);
+            if (!path.isAbsolute()) {
+                path = DATA_PHOTOS_DIR.resolve(path).normalize();
+            }
+            return Files.exists(path) && Files.isRegularFile(path);
         } catch (InvalidPathException e) {
             return false;
         }

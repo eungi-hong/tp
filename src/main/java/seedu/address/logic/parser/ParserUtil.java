@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PLACEHOLDER_IMAGE_PATH;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -184,6 +185,9 @@ public class ParserUtil {
     public static PhotoPath parsePhotoPath(String path) throws ParseException {
         requireNonNull(path);
         String normalized = path.trim();
+        if (normalized.isEmpty()) {
+            return new PhotoPath(PLACEHOLDER_IMAGE_PATH);
+        }
         // Strip surrounding quotes (double or single)
         if ((normalized.startsWith("\"") && normalized.endsWith("\""))
                 || (normalized.startsWith("'") && normalized.endsWith("'"))) {
