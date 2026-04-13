@@ -430,12 +430,12 @@ A **Precondition** is that the system is displaying the list of clients and pets
     * 1a1. System notifies user.
      Use case ends.
 
-* 2a. The given parameters are invalid.
+* 2a. The given index is invalid.
 
     * 2a1. System shows an error message.
     * 2a2. User makes new request to delete a client.
 
-      Steps 2a1-2a2 are repeated until the parameters are valid.
+      Steps 2a1-2a2 are repeated until the index is valid.
 
       Use case resumes at step 3.
 
@@ -457,11 +457,11 @@ A **Precondition** is that the system is displaying the list of clients and pets
     * 1a1. System notifies user.
      Use case ends.
 
-* 2a. The given parameters are invalid.
+* 2a. The given index is invalid.
 
     * 2a1. System shows an error message.
     * 2a2. User makes new request to delete a pet from a client.
-      Steps 2a1-2a2 are repeated until the parameters are valid.
+      Steps 2a1-2a2 are repeated until the index is valid.
 
       Use case resumes at step 3.
 
@@ -482,11 +482,11 @@ A **Precondition** is that the system is displaying the list of clients and pets
     * 1a1. System notifies user.
      Use case ends.
 
-* 2a. The given parameters are invalid.
+* 2a. The given index is invalid.
 
     * 2a1. System shows an error message.
     * 2a2. User makes new request to edit a client.
-      Steps 2a1-2a2 are repeated until the parameters are valid.
+      Steps 2a1-2a2 are repeated until the index is valid.
 
       Use case resumes at step 3.
 
@@ -507,11 +507,11 @@ A **Precondition** is that the system is displaying the list of clients and pets
     * 1a1. System notifies user.
      Use case ends.
 
-* 2a. The given parameters are invalid.
+* 2a. The given index is invalid.
 
     * 2a1. System shows an error message.
     * 2a2. User makes new request to edit a pet.
-      Steps 2a1-2a2 are repeated until the parameters are valid.
+      Steps 2a1-2a2 are repeated until the index is valid.
 
       Use case resumes at step 3.
 
